@@ -4,10 +4,10 @@ import moment from "moment";
 import axios from "axios";
 import { createMarkup } from "./functions";
 import Headers from "components/Headers";
+// import Login from "bookmark/Login";
 import "./index.scss";
 
 const App = (props) => {
-  console.log("LandingPage props: ", props);
   const [news, setNews] = useState<any>();
   const [hits, setHits] = useState<any>();
   const [loading, setLoading] = useState(true);
@@ -31,11 +31,13 @@ const App = (props) => {
     setSearchString(event.currentTarget.value);
   }
 
-  function submitQuery(e: any) {
+  function submitQuery(e:React.SyntheticEvent<HTMLFormElement>) {
+    console.log("submitQuery e: ",e.currentTarget)
+  const element: HTMLInputElement = e.currentTarget.getElementsByTagName("INPUT")[0] as HTMLInputElement;
     e.preventDefault();
-    if (searchString) {
+    if (element.value) {
       setCurrent(1);
-      props.getNews({ searchString: searchString, page: current });
+      FetchNews(element.value);
     }
   }
 
@@ -44,11 +46,12 @@ const App = (props) => {
   }
 
   async function FetchNews(searchValue) {
+    setLoading(true);
     var response
     if (searchValue) {
       response = await axios.get(`http://hn.algolia.com/api/v1/search?query=${searchValue}`);
     } else {
-      response = await axios.get("http://hn.algolia.com/api/v1/search?query=reacthooks");
+      response = await axios.get("http://hn.algolia.com/api/v1/search?query=microfrontends");
     }
 
     if (response.status !== 200) {
@@ -56,7 +59,6 @@ const App = (props) => {
       setError(response.statusText);
       
     } else {
-      console.log(response.data)
       setLoading(false);
       setNews(response.data);
       setHits(response.data.hits);
@@ -71,6 +73,7 @@ const App = (props) => {
         <h2 className="p-0 m-0 text-center text-grey-darkest font-bolder lead">"{news.query}"</h2>
         : null}
       <div className='flex-grow px-2 py-4 my-2 overflow-y-scroll bg-white rounded-xl'>
+        {/* <Login/> */}
         {loading ? <div className="font-bold text-orange-500 ">fetching results....</div> : <div className='p-2 bg-white '>
           <ul className='mx-1'>
             {hits ? hits.map((entry, i) => {

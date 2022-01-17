@@ -1,5 +1,5 @@
 ## Getting started
-Webpack 5 Module federation app created with
+Webpack 5 Module federation apps created with
 
 ```
 npx create-mf-app <app-name>

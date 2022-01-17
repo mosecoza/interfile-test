@@ -44,7 +44,8 @@ module.exports = {
       name: "news_app",
       filename: "remoteEntry.js",
       remotes: {
-        components: "components_app@http://localhost:3001/remoteEntry.js"
+        components: "components_app@http://localhost:3001/remoteEntry.js",
+        bookmark: "bookmark@http://localhost:3002/remoteEntry.js"
       },
       exposes: {},
       shared: {

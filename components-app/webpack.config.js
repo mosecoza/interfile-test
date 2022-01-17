@@ -43,7 +43,9 @@ module.exports = {
     new ModuleFederationPlugin({
       name: "components_app",
       filename: "remoteEntry.js",
-      remotes: {},
+      remotes: {
+        bookmark: "bookmark@http://localhost:3002/remoteEntry.js"
+      },
       exposes: {
         "./Headers": "./src/components/Headers.tsx"
       },
